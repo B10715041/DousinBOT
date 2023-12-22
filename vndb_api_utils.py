@@ -50,7 +50,7 @@ def format_vndb_response_as_embed(data):
         embed.title = title
 
         embed.description = ", ".join(vn_highest_rated['aliases'])
-        
+
         # embed.add_field(name="\u200b", value="\u200b", inline=False)
 
         dev = vn_highest_rated['developers'][0]
@@ -80,7 +80,7 @@ def format_vndb_response_as_embed(data):
                 if str(vn[0]) == vn_id:
                     va_mainset.append(int(va[0]['id'])) if vn[3] in ['main', 'primary'] else va_subset.append(int(va[0]['id']))
                     break
-        
+
         # va_list = [(f"[{search_staff(va)['original']}](https://vndb.org/s{va})") for va in va_set]
         va_mainlist = []
         va_sublist = []
@@ -91,13 +91,17 @@ def format_vndb_response_as_embed(data):
             else:
                 va_sublist.append(f"[{va['original']}](https://vndb.org/s{va['id']})")
 
-        embed.add_field(name="Main Character Voice Actor", value='\t'.join(va_mainlist))
-        embed.add_field(name="Side Character Voice Actor", value='\t'.join(va_sublist))
-        # half_index = len(va_list) // 2
-        # va_first = va_list[:half_index]
-        # va_second = va_list[half_index:]
-        # embed.add_field(name="Voice Actor", value='\n'.join(va_first), inline=True)
-        # embed.add_field(name="\u200b", value='\n'.join(va_second), inline=True)
+        embed.add_field(name="Main Character Voice Actor", value='\t'.join(va_mainlist), inline=False)
+
+        if len(va_sublist):
+            if len(' '.join(va_sublist)) < 980:
+                embed.add_field(name="Side Character Voice Actor", value='\t'.join(va_sublist), inline=False)
+            else:
+                half_index = len(va_sublist) // 2
+                va_first = va_sublist[:half_index]
+                va_second = va_sublist[half_index:]
+                embed.add_field(name="Side Character Voice Actor", value=' '.join(va_first), inline=False)
+                embed.add_field(name="\u200b", value=' '.join(va_second))
 
         if 'url' in vn_highest_rated['image']:
             embed.set_thumbnail(url=vn_highest_rated['image']['url'])

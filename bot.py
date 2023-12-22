@@ -52,22 +52,28 @@ async def on_message(message):
         search_query = message.content[1:].strip()
 
         async with message.channel.typing():
-            await asyncio.sleep(5)
+            # Call the VNDB API with the search query
+            response_data = await search_vndb(search_query)
 
-        # Call the VNDB API with the search query
-        response_data = await search_vndb(search_query)
+            response_msg = ""
+            embed = ""
+            embed2 = ""
+            if isinstance(response_data, str):
+                # If response_data is a string, an error occurred.
+                # await message.channel.send(response_data)
+                response_msg = response_data
+            else:
+                for entry in response_data['results']:
+                    if 'titles' in entry and entry['titles']:
+                        print(entry['titles'][0]['title'])
+                # Successfully retrieved data, create an embed to send it
+                embed, embed2 = format_vndb_response_as_embed(response_data)
+                response_msg = "幫お兄ちゃん找到囉"
 
-        if isinstance(response_data, str):
-            # If response_data is a string, an error occurred.
-            await message.channel.send(response_data)
-        else:
-            for entry in response_data['results']:
-                if 'titles' in entry and entry['titles']:
-                    print(entry['titles'][0]['title'])
-            # Successfully retrieved data, create an embed to send it
-            embed, embed2 = format_vndb_response_as_embed(response_data)
+            await message.channel.send(f"{message.author.mention} {response_msg}")
             await message.channel.send(embed=embed)
             await message.channel.send(embed=embed2)
+            await asyncio.sleep(1)
 
         return  # Return to avoid processing commands
 
