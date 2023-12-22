@@ -22,7 +22,7 @@ async def search_vndb(query):
 
 def search_staff(id):
     staff_data = vndb_api_request_paginated(f"get staff basic (id = {id})")
-    return staff_data[0]
+    return staff_data
 
 
 
@@ -51,7 +51,7 @@ def format_vndb_response_as_embed(data):
 
         embed.description = ", ".join(vn_highest_rated['aliases'])
         
-        embed.add_field(name="\u200b", value="\u200b", inline=False)
+        # embed.add_field(name="\u200b", value="\u200b", inline=False)
 
         dev = vn_highest_rated['developers'][0]
         embed.add_field(name="Developer", value=f"[{dev['name']}](https://vndb.org/{dev['id']})", inline=True)
@@ -61,44 +61,67 @@ def format_vndb_response_as_embed(data):
         length_formatted = f"{length_minutes // 60}h {length_minutes % 60}m" if length_minutes else "N/A"  # Convert minutes to hours and minutes
         embed.add_field(name="Length", value=str(length_formatted), inline=True)
 
-        embed.add_field(name="\u200b", value="\u200b", inline=False)
-
         embed.add_field(name="Rating", value=str(vn_highest_rated['rating']), inline=True)
         embed.add_field(name="Vote Count", value=str(vn_highest_rated['votecount']), inline=True)
 
-        embed.add_field(name="\u200b", value="\u200b", inline=False)
+        # embed.add_field(name="\u200b", value="\u200b", inline=False)
 
         vn_id = ''.join(re.findall(r'\d+', vn_highest_rated['id']))
         embed.url = f"https://vndb.org/v{vn_id}"
-        character_data = vndb_api_request_paginated(f"get character basic,voiced (vn = {vn_id})")
+        character_data = vndb_api_request_paginated(f"get character basic,vns,voiced (vn = {vn_id})")
 
-        va_list = []
+        va_mainset = []
+        va_subset = []
         for chara in character_data:
             va = chara.get('voiced')
-            if va == []:
+            if va == [] or va[0]['id'] in va_mainset + va_subset:
                 continue
-            va_list.append(f"[{search_staff(va[0]['id'])['original']}](https://vndb.org/s{va[0]['id']})")
+            for vn in chara.get('vns'):
+                if str(vn[0]) == vn_id:
+                    va_mainset.append(int(va[0]['id'])) if vn[3] in ['main', 'primary'] else va_subset.append(int(va[0]['id']))
+                    break
+        
+        # va_list = [(f"[{search_staff(va)['original']}](https://vndb.org/s{va})") for va in va_set]
+        va_mainlist = []
+        va_sublist = []
+        va_set = search_staff(va_mainset + va_subset)
+        for va in va_set:
+            if int(va['id']) in va_mainset:
+                va_mainlist.append(f"[{va['original']}](https://vndb.org/s{va['id']})")
+            else:
+                va_sublist.append(f"[{va['original']}](https://vndb.org/s{va['id']})")
 
-        half_index = len(va_list) // 2
-        va_first = va_list[:half_index]
-        va_second = va_list[half_index:]
-        embed.add_field(name="Voice Actor", value='\n'.join(va_first), inline=True)
-        embed.add_field(name="\u200b", value='\n'.join(va_second), inline=True)
+        embed.add_field(name="Main Character Voice Actor", value='\t'.join(va_mainlist))
+        embed.add_field(name="Side Character Voice Actor", value='\t'.join(va_sublist))
+        # half_index = len(va_list) // 2
+        # va_first = va_list[:half_index]
+        # va_second = va_list[half_index:]
+        # embed.add_field(name="Voice Actor", value='\n'.join(va_first), inline=True)
+        # embed.add_field(name="\u200b", value='\n'.join(va_second), inline=True)
 
         if 'url' in vn_highest_rated['image']:
             embed.set_thumbnail(url=vn_highest_rated['image']['url'])
 
         staff_data = vndb_api_request_paginated(f"get vn staff (id = {vn_id})")[0]
         staff_by_role = defaultdict(list)
+        jp_role = ['scenario', 'art', 'director', 'songs', 'music']
         for staff in staff_data['staff']:
+            if not staff.get('original') and staff.get('role') not in jp_role:
+                continue
             name = staff.get('original') or staff.get('name', 'N/A')
             role = staff.get('role', 'N/A')
             staff_by_role[role].append(f"[{name}](https://vndb.org/s{staff.get('sid')})")
 
         # Sort roles and add to embed as inline fields
         for role, names in sorted(staff_by_role.items()):
-            print(' '.join(names))
-            embed2.add_field(name=role.capitalize(), value='\n'.join(names), inline=True)
+            length = len(role.capitalize())
+            name_str = str()
+            for name in names:
+                length += len(name) + 1
+                if length > 1000:
+                    break
+                name_str = name_str + name + '~'
+            embed2.add_field(name=role.capitalize(), value=name_str.strip().replace('~', '\n'), inline=True)
 
         if vn_highest_rated['screenshots']:
             embed2.set_thumbnail(url=vn_highest_rated['screenshots'][0]['thumbnail'].replace('/st/', '/sf/'))
@@ -148,6 +171,9 @@ def vndb_api_request_paginated(base_command):
         # Modify the command to include the page number
         command = f"{base_command} {{\"page\": {page}}}"
         response = vndb_api_request(command)  # Function that sends command to the API
+
+        print(command)
+        print(response, '\n')
 
         # Remove the 'results ' prefix and parse the JSON
         response = response[len('results '):]
