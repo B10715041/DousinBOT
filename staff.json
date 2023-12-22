@@ -1,0 +1,167 @@
+[
+    {
+        "staff": [
+            {
+                "name": "Mojasubii",
+                "aid": 6979,
+                "sid": 5218,
+                "original": "もじゃすびい",
+                "role": "director",
+                "note": null
+            },
+            {
+                "name": "Matsumu",
+                "aid": 6980,
+                "sid": 5219,
+                "original": "まつむー",
+                "role": "music",
+                "note": "BGM production"
+            },
+            {
+                "name": "Utsunomiya Tsumire",
+                "sid": 5327,
+                "aid": 7139,
+                "role": "chardesign",
+                "original": "宇都宮 つみれ",
+                "note": null
+            },
+            {
+                "name": "Utsunomiya Tsumire",
+                "sid": 5327,
+                "aid": 7139,
+                "role": "art",
+                "original": "宇都宮 つみれ",
+                "note": null
+            },
+            {
+                "original": "茜屋",
+                "role": "art",
+                "note": "SD",
+                "name": "Akaneya",
+                "aid": 7563,
+                "sid": 5685
+            },
+            {
+                "sid": 9860,
+                "aid": 12531,
+                "name": "Syamo",
+                "note": "Movie production",
+                "role": "staff",
+                "original": null
+            },
+            {
+                "name": "Ouse Akira",
+                "sid": 9924,
+                "aid": 12601,
+                "role": "staff",
+                "original": "逢瀬 アキラ",
+                "note": "Asumi insert song lyrics"
+            },
+            {
+                "note": "Design direction, web design",
+                "original": null,
+                "role": "staff",
+                "aid": 16309,
+                "sid": 12910,
+                "name": "cao."
+            },
+            {
+                "aid": 17856,
+                "sid": 14188,
+                "name": "Horie Shouta",
+                "note": "OP composition, arrangement",
+                "original": "堀江 晶太",
+                "role": "music"
+            },
+            {
+                "aid": 17856,
+                "sid": 14188,
+                "name": "Horie Shouta",
+                "note": "OP lyrics",
+                "original": "堀江 晶太",
+                "role": "staff"
+            },
+            {
+                "note": "OP \"Issatsu no Arrow\"",
+                "role": "songs",
+                "original": "櫻川 めぐ",
+                "sid": 553,
+                "aid": 17914,
+                "name": "Sakuragawa Megu"
+            },
+            {
+                "note": "Kano ED \"happy palette♪\"",
+                "role": "songs",
+                "original": "藍月 なくる",
+                "sid": 17467,
+                "aid": 21871,
+                "name": "Aitsuki Nakuru"
+            },
+            {
+                "name": "Yamaguchi Tako",
+                "aid": 22941,
+                "sid": 18351,
+                "original": "山口 たこ",
+                "role": "music",
+                "note": "Kano ED & Shio ED composition, arrangement"
+            },
+            {
+                "sid": 20827,
+                "aid": 25867,
+                "name": "Tsukino",
+                "note": "Hiyori ED \"Heart Creation\"",
+                "role": "songs",
+                "original": "月乃"
+            },
+            {
+                "aid": 27200,
+                "sid": 21907,
+                "name": "Katsuki Junnosuke",
+                "note": null,
+                "original": "甲木 順之助",
+                "role": "scenario"
+            },
+            {
+                "role": "songs",
+                "original": "紬 雪乃",
+                "note": "Asumi insert song \"Little Silent Snow\"",
+                "name": "Tsumugi Yukino",
+                "sid": 21909,
+                "aid": 27202
+            },
+            {
+                "original": "餅月 ひまり",
+                "role": "songs",
+                "note": "Ameri ED \"Natsu-iro Camera Roll\"",
+                "name": "Mochizuki Himari",
+                "aid": 27540,
+                "sid": 22192
+            },
+            {
+                "role": "songs",
+                "original": "朝ノ 瑠璃",
+                "note": "Shio ED \"Koikage\"",
+                "name": "Asano Ruri",
+                "sid": 23868,
+                "aid": 29577
+            },
+            {
+                "name": "Iwai Ringo",
+                "aid": 33871,
+                "sid": 27338,
+                "original": "祝りんご",
+                "role": "staff",
+                "note": "Kano ED, Shio ED lyrics"
+            },
+            {
+                "role": "songs",
+                "original": "ヒヅキ ミウ",
+                "note": "Asumi ED \"Tokirakimeki\"",
+                "name": "Hizuki Miu",
+                "sid": 29630,
+                "aid": 36554
+            }
+        ],
+        "id": 33205
+    }
+]

@@ -5,6 +5,12 @@ import json
 import re
 import socket
 
+
+
+with open('config.json', 'r') as file:
+    config = json.load(file)
+
+
 async def search_vndb(query):
     async with aiohttp.ClientSession() as session:
         async with session.post(
@@ -142,8 +148,7 @@ def vndb_api_request(command):
 
     # Connect to the VNDB API using TCP
     with socket.create_connection((host, port)) as s:
-        # Log in (replace 'username' and 'password' with your VNDB credentials)
-        login_command = 'login {"protocol":1,"client":"testclient","clientver":0.1,"username":"shinku4lyfe","password":"Prhj3Wx$Ji_NHz6"}\x04'
+        login_command = 'login {"protocol":1,"client":"testclient","clientver":0.1,"username": ' + config['id'] + '"password":' + config['pw'] + '}\x04'
         s.sendall(login_command.encode('utf-8'))
 
         # Check for a successful login

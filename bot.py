@@ -2,8 +2,10 @@ from discord.ext import commands
 from vndb_api_utils import format_vndb_response_as_embed, search_vndb
 import asyncio
 import discord
+import json
 
-TOKEN = 'NTkxODU2MjQ5ODM5Mjg4MzMw.GXoWaJ.3utd35NdQKO5ajDTHWR27dLs3NxYVrJugTE49s'
+with open('config.json', 'r') as file:
+    config = json.load(file)
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -82,7 +84,7 @@ async def on_message(message):
 
 
 # Replace 'YOUR_TOKEN_HERE' with your bot's token
-bot.run(TOKEN)
+bot.run(config['token'])
 
 
 

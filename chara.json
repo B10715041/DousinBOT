@@ -1,0 +1,277 @@
+[
+    {
+        "gender": "m",
+        "birthday": [
+            23,
+            6
+        ],
+        "id": 87836,
+        "bloodt": null,
+        "original": "和泉 智宏",
+        "spoil_gender": null,
+        "name": "Izumi Tomohiro",
+        "voiced": []
+    },
+    {
+        "bloodt": null,
+        "gender": "f",
+        "birthday": [
+            5,
+            9
+        ],
+        "id": 87837,
+        "spoil_gender": null,
+        "name": "Izumi Hiyori",
+        "voiced": [
+            {
+                "aid": 15909,
+                "note": null,
+                "id": 3692,
+                "vid": 27449
+            },
+            {
+                "aid": 15909,
+                "id": 3692,
+                "note": null,
+                "vid": 33205
+            }
+        ],
+        "original": "和泉 妃愛"
+    },
+    {
+        "original": "常磐 華乃",
+        "spoil_gender": null,
+        "name": "Tokiwa Kano",
+        "voiced": [
+            {
+                "vid": 27449,
+                "note": null,
+                "id": 902,
+                "aid": 1586
+            },
+            {
+                "aid": 1586,
+                "id": 902,
+                "note": null,
+                "vid": 33205
+            }
+        ],
+        "gender": "f",
+        "id": 87838,
+        "birthday": [
+            31,
+            1
+        ],
+        "bloodt": null
+    },
+    {
+        "gender": "f",
+        "birthday": [
+            1,
+            12
+        ],
+        "id": 87839,
+        "bloodt": null,
+        "original": "錦 あすみ",
+        "spoil_gender": null,
+        "name": "Nishiki Asumi",
+        "voiced": [
+            {
+                "id": 21909,
+                "note": null,
+                "vid": 27449,
+                "aid": 27202
+            },
+            {
+                "aid": 27202,
+                "id": 21909,
+                "note": null,
+                "vid": 33205
+            }
+        ]
+    },
+    {
+        "gender": "f",
+        "birthday": [
+            18,
+            2
+        ],
+        "id": 87840,
+        "bloodt": null,
+        "original": "鎌倉 詩桜",
+        "name": "Kamakura Shio",
+        "spoil_gender": null,
+        "voiced": [
+            {
+                "aid": 29179,
+                "id": 23246,
+                "note": null,
+                "vid": 27449
+            },
+            {
+                "id": 23246,
+                "note": null,
+                "vid": 33205,
+                "aid": 29179
+            }
+        ]
+    },
+    {
+        "original": "竜閑 天梨",
+        "voiced": [
+            {
+                "vid": 27449,
+                "id": 874,
+                "note": null,
+                "aid": 1554
+            },
+            {
+                "aid": 1554,
+                "id": 874,
+                "note": null,
+                "vid": 33205
+            }
+        ],
+        "spoil_gender": null,
+        "name": "Ryuukan Ameri",
+        "id": 91566,
+        "birthday": [
+            17,
+            3
+        ],
+        "gender": "f",
+        "bloodt": null
+    },
+    {
+        "spoil_gender": null,
+        "name": "Izumi Miri",
+        "voiced": [
+            {
+                "aid": 43,
+                "note": null,
+                "id": 11,
+                "vid": 27449
+            },
+            {
+                "aid": 43,
+                "vid": 33205,
+                "id": 11,
+                "note": null
+            }
+        ],
+        "original": "和泉 里",
+        "bloodt": null,
+        "gender": "f",
+        "birthday": [
+            16,
+            4
+        ],
+        "id": 91567
+    },
+    {
+        "voiced": [
+            {
+                "aid": 18027,
+                "note": null,
+                "id": 14338,
+                "vid": 27449
+            },
+            {
+                "note": null,
+                "id": 14338,
+                "vid": 33205,
+                "aid": 18027
+            }
+        ],
+        "name": "Shinkawa Hiromu",
+        "spoil_gender": null,
+        "original": "新川 広夢",
+        "bloodt": null,
+        "id": 91568,
+        "birthday": [
+            22,
+            12
+        ],
+        "gender": "m"
+    },
+    {
+        "birthday": [
+            15,
+            8
+        ],
+        "id": 91569,
+        "gender": "f",
+        "bloodt": null,
+        "original": "聖 莉々子",
+        "voiced": [
+            {
+                "note": null,
+                "id": 11698,
+                "vid": 27449,
+                "aid": 28732
+            },
+            {
+                "aid": 28732,
+                "note": null,
+                "id": 11698,
+                "vid": 33205
+            }
+        ],
+        "name": "Hijiri Ririko",
+        "spoil_gender": null
+    },
+    {
+        "original": "雪景 シキ",
+        "voiced": [],
+        "name": "Yukige Shiki",
+        "spoil_gender": null,
+        "id": 101936,
+        "birthday": [
+            null,
+            null
+        ],
+        "gender": "f",
+        "bloodt": null
+    },
+    {
+        "id": 109412,
+        "birthday": [
+            12,
+            10
+        ],
+        "gender": "f",
+        "bloodt": null,
+        "original": "神田 柑凪",
+        "voiced": [
+            {
+                "aid": 28365,
+                "id": 22881,
+                "note": null,
+                "vid": 33205
+            }
+        ],
+        "spoil_gender": null,
+        "name": "Kanda Kanna"
+    },
+    {
+        "bloodt": null,
+        "id": 109413,
+        "birthday": [
+            25,
+            7
+        ],
+        "gender": "f",
+        "voiced": [
+            {
+                "vid": 33205,
+                "note": null,
+                "id": 15910,
+                "aid": 19965
+            }
+        ],
+        "spoil_gender": null,
+        "name": "Iida Iina",
+        "original": "飯田 伊々奈"
+    }
+]
+
