@@ -1,9 +1,18 @@
 from collections import defaultdict
+from dataclasses import dataclass
 import aiohttp
 import discord
 import json
 import re
 import socket
+
+
+@dataclass
+class VoiceActor:
+    name:   str = ""
+    id:     int = -1
+    aid:    int = -1
+    main:   bool= True
 
 
 
@@ -21,14 +30,18 @@ async def search_vndb(query):
                 "fields": "id, titles.title, titles.main, aliases, developers.original, developers.name, released, length_minutes, rating, votecount, image.url, screenshots.thumbnail"
             })
         ) as response:
+            with open('.search_vndb.json', 'w') as file:
+                file.write(await response.text())
+
             if response.status == 200:
                 return await response.json()
             else:
                 return f"Error: Received status code {response.status}"
 
-def search_staff(id):
-    staff_data = vndb_api_request_paginated(f"get staff basic (id = {id})")
-    return staff_data
+def search_staff(id,search_alias=False):
+    if search_alias:
+        return vndb_api_request_paginated(f"get staff aliases (id = {id})")
+    return vndb_api_request_paginated(f"get staff basic (id = {id})")
 
 
 
@@ -76,38 +89,47 @@ def format_vndb_response_as_embed(data):
         embed.url = f"https://vndb.org/v{vn_id}"
         character_data = vndb_api_request_paginated(f"get character basic,vns,voiced (vn = {vn_id})")
 
-        va_mainset = []
-        va_subset = []
+        va_set = dict()
         for chara in character_data:
             va = chara.get('voiced')
-            if va == [] or va[0]['id'] in va_mainset + va_subset:
+            if va == [] or any(instance.id == va[0]['id'] for instance in va_set.values()):
                 continue
             for vn in chara.get('vns'):
-                if str(vn[0]) == vn_id:
-                    va_mainset.append(int(va[0]['id'])) if vn[3] in ['main', 'primary'] else va_subset.append(int(va[0]['id']))
-                    break
+                if str(vn[0]) != vn_id:
+                    continue
+                voiceactor = VoiceActor(id=va[0]['id'], aid=va[0]['aid'])
+                if vn[3] not in ['main', 'primary']:
+                    voiceactor.main = False 
+                va_set[voiceactor.id] = voiceactor
+                break
 
-        # va_list = [(f"[{search_staff(va)['original']}](https://vndb.org/s{va})") for va in va_set]
+        aid_response = search_staff([va.id for va in va_set.values()], search_alias=True)
+        for cur_va in aid_response:
+            va = va_set[cur_va['id']]
+            for aliase in cur_va['aliases']:
+                if va.aid == aliase[0]:
+                    va.name = aliase[2]
+                    break
+        
         va_mainlist = []
         va_sublist = []
-        va_set = search_staff(va_mainset + va_subset)
-        for va in va_set:
-            if int(va['id']) in va_mainset:
-                va_mainlist.append(f"[{va['original']}](https://vndb.org/s{va['id']})")
+        for va in va_set.values():
+            if va.main:
+                va_mainlist.append(f"[{va.name}](https://vndb.org/s{va.id})")
             else:
-                va_sublist.append(f"[{va['original']}](https://vndb.org/s{va['id']})")
+                va_sublist.append(f"[{va.name}](https://vndb.org/s{va.id})")
 
-        embed.add_field(name="Main Character Voice Actor", value='\t'.join(va_mainlist), inline=False)
+        embed.add_field(name="Main Character Voice Actor", value='|'.join(va_mainlist), inline=False)
 
         if len(va_sublist):
-            if len(' '.join(va_sublist)) < 980:
-                embed.add_field(name="Side Character Voice Actor", value='\t'.join(va_sublist), inline=False)
+            if len(''.join(va_sublist)) < 980:
+                embed.add_field(name="Side Character Voice Actor", value='|'.join(va_sublist), inline=False)
             else:
                 half_index = len(va_sublist) // 2
                 va_first = va_sublist[:half_index]
                 va_second = va_sublist[half_index:]
-                embed.add_field(name="Side Character Voice Actor", value=' '.join(va_first), inline=False)
-                embed.add_field(name="\u200b", value=' '.join(va_second))
+                embed.add_field(name="Side Character Voice Actor", value='|'.join(va_first), inline=False)
+                embed.add_field(name="\u200b", value='|'.join(va_second))
 
         if 'url' in vn_highest_rated['image']:
             embed.set_thumbnail(url=vn_highest_rated['image']['url'])
@@ -148,12 +170,13 @@ def vndb_api_request(command):
 
     # Connect to the VNDB API using TCP
     with socket.create_connection((host, port)) as s:
-        login_command = 'login {"protocol":1,"client":"testclient","clientver":0.1,"username": ' + config['id'] + '"password":' + config['pw'] + '}\x04'
+        login_command = f'login {{"protocol":1,"client":"testclient","clientver":0.1,"username":"{config["id"]}","password":"{config["pw"]}"}}\x04'
         s.sendall(login_command.encode('utf-8'))
 
         # Check for a successful login
         response = s.recv(1024).decode('utf-8')
         if 'ok' not in response:
+            print(response)
             return "Login failed"
 
         # Send the request command

@@ -71,11 +71,16 @@ async def on_message(message):
                         print(entry['titles'][0]['title'])
                 # Successfully retrieved data, create an embed to send it
                 embed, embed2 = format_vndb_response_as_embed(response_data)
-                response_msg = "幫お兄ちゃん找到囉"
+                if embed.description == "No results found.":
+                    response_msg = "No results found で候!"
 
-            await message.channel.send(f"{message.author.mention} {response_msg}")
-            await message.channel.send(embed=embed)
-            await message.channel.send(embed=embed2)
+            if response_msg != "No results found で候!":
+                await message.channel.send(f"{message.author.mention} 幫お兄ちゃん找到囉")
+                await message.channel.send(embed=embed)
+                await message.channel.send(embed=embed2)
+            else:
+                await message.channel.send(f"{message.author.mention} {response_msg}")
+
             await asyncio.sleep(1)
 
         return  # Return to avoid processing commands
