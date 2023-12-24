@@ -27,7 +27,8 @@ async def search_vndb(query):
             headers={'Content-Type': 'application/json'},
             data=json.dumps({
                 "filters": ["search", "=", query],
-                "fields": "id, titles.title, titles.main, aliases, developers.original, developers.name, released, length_minutes, rating, votecount, image.url, screenshots.thumbnail"
+                "fields": "id, titles.title, titles.main, aliases, developers.original, developers.name, released, length_minutes, rating, votecount, image.url, screenshots.thumbnail",
+                "sort": "searchrank"
             })
         ) as response:
             with open('.search_vndb.json', 'w') as file:
@@ -209,14 +210,18 @@ def vndb_api_request_paginated(base_command):
 
         # Remove the 'results ' prefix and parse the JSON
         response = response[len('results '):]
-        parsed_response = json.loads(response)
+        try:
+            parsed_response = json.loads(response)
+            # Add the items from this page to the all_items list
+            all_items.extend(parsed_response.get("items", []))
 
-        # Add the items from this page to the all_items list
-        all_items.extend(parsed_response.get("items", []))
-
-        # Check if there are more results
-        more_results = parsed_response.get("more", False)
-        page += 1
+            # Check if there are more results
+            more_results = parsed_response.get("more", False)
+            page += 1
+        except Exception as e:
+            print(e)
+            print(response)
+            break
 
     return all_items
 
